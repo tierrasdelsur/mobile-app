@@ -1,0 +1,84 @@
+<div class="outer">
+  <div class="middle">
+    <form class="inner" [formGroup]="formGroup">
+      <div class="title-container">
+        <img height="150px" width="150px" src="assets/t_aliceblue.png"/>
+        <!-- <h1 class="h1">mobile</h1> -->
+      </div>
+      <mat-form-field class="input" appearance="outline">
+        <mat-label>Usuario</mat-label>
+        <input formControlName="usuario"  matInput>
+      </mat-form-field>
+
+      <mat-form-field class="input" appearance="outline">
+        <mat-label>Contraseña</mat-label>
+        <input #pass  matInput autocomplete="on" formControlName="password"  type="password">
+        <mat-icon style="color: aliceblue;" (click)="verPassword(); $event.stopPropagation()" matSuffix>{{ verPass ? 'visibility_off': 'visibility' }}</mat-icon>
+      </mat-form-field>
+
+      <div class="input">
+        <button type="button" [disabled]="!formGroup.valid" (click)="login()" mat-flat-button color="primary">Ingresar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+
+<style>
+  .outer {
+    display: table;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-image: url('assets/bg_stone.gif');
+    background-repeat: repeat;
+  }
+
+  .title-container {
+    max-width: 150px;
+    margin: 0 auto ;
+    display: flex
+  }
+
+  .h1 {
+    color: aliceblue;
+    font-weight: lighter;
+    margin: auto 0;
+  }
+  .middle {
+    display: table-cell;
+    vertical-align: middle;
+    transform: translateY(-10vh);
+  }
+
+  button {
+    width: 100%;
+  }
+
+  .input {
+    display: block;
+  }
+
+  .input mat-label {
+    color: aliceblue;
+  }
+
+  .input .mat-input-element {
+    color: aliceblue;
+  }
+
+  .input .mat-input-element::placeholder {
+    color: aliceblue;
+
+  }
+
+  .inner {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 512px;
+    padding: 15px;
+  }
+</style>
