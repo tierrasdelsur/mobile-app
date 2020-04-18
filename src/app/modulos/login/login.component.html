@@ -17,7 +17,7 @@
       </mat-form-field>
 
       <div class="input">
-        <button type="button" [disabled]="!formGroup.valid" (click)="login()" mat-flat-button color="primary">Ingresar</button>
+        <button type="button" [disabled]="!formGroup.valid || cargando" (click)="login()" mat-flat-button color="primary">{{cargando ? 'Ingresando...' : 'Ingresar'}}</button>
       </div>
     </form>
   </div>

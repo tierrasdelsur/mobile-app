@@ -6,6 +6,7 @@ import { Usuario } from 'src/app/dominio/usuario';
 import { Subscription } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -25,7 +26,9 @@ export class LoginComponent implements OnInit {
   constructor(
     private sesionRepository: SesionRepository,
     private formBuilder: FormBuilder,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private router: Router,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
@@ -50,18 +53,32 @@ export class LoginComponent implements OnInit {
 
   public login() {
     const usuario = Object.assign(new Usuario(), this.formGroup.value);
+    this.cargando = true;
     this.sesionSubscription = this.sesionRepository.login(usuario).subscribe({
-      next: () => {},
+      next: () => {
+        this.router.navigate(['/'], {
+          relativeTo: this.route
+        }).then(() => {
+          this.cargando = false;
+        });
+      },
       error: (errorResponse: HttpErrorResponse) => {
+        this.cargando = false;
         console.error(errorResponse);
-        this.mostrarError((errorResponse.error as ErrorServidor).mensaje);
+        if (errorResponse.status === 401 && (errorResponse.error as ErrorServidor).mensaje) {
+          this.mostrarError((errorResponse.error as ErrorServidor).mensaje);
+        } else {
+          this.mostrarError('Ocurrio un error, por favor intente nuevamente en unos minutos', 'errorMensaje');
+        }
       }
     });
   }
 
-  private mostrarError(mensaje: string) {
-    this.snackBar.open(mensaje, 'OK', {
-      duration: 10000,
-    });
+  private mostrarError(mensaje: string, style = undefined) {
+    const settings = {
+      duration: 10000
+    };
+    if (style) { settings['panelClass'] = [style]; }
+    this.snackBar.open(mensaje, 'OK', settings);
   }
 }

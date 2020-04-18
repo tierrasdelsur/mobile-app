@@ -30,3 +30,23 @@ $tds-mobile-theme: mat-dark-theme($tds-mobile-primary, $tds-mobile-accent, $tds-
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+.errorMensaje {
+  background-color: #b93546;
+  color: honeydew;
+
+  .mat-button {
+    color: aliceblue;
+  }
+}
+
+.infoMensaje {
+  background-color: #6f8ca7;
+  color: honeydew;
+
+  .mat-button {
+    color: aliceblue;
+  }
+}
+

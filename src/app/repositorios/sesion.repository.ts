@@ -32,13 +32,13 @@ export class SesionRepository {
   }
 
   private saveSesion(sesion: Sesion) {
-    localStorage.setItem('sesion', JSON.stringify(sesion));
+    sessionStorage.setItem('sesion', JSON.stringify(sesion));
   }
 
 
   public getSesion(): Observable<Sesion> {
-    if (localStorage.getItem('sesion')) {
-      return of(JSON.parse(localStorage.getItem('sesion')));
+    if (sessionStorage.getItem('sesion')) {
+      return of(JSON.parse(sessionStorage.getItem('sesion')));
     } else {
       throw Error('Estas deslogeado de la app');
     }
