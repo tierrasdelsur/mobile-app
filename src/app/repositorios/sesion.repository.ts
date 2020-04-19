@@ -5,6 +5,7 @@ import { ConfigService } from './../servicios/config.service';
 import { Injectable } from '@angular/core';
 import { Usuario } from '../dominio/usuario';
 import { map } from 'rxjs/operators';
+import { UnAuthentificatedError } from '../errores/unauthentificatederror';
 
 
 @Injectable({
@@ -37,11 +38,13 @@ export class SesionRepository {
 
 
   public getSesion(): Observable<Sesion> {
-    if (sessionStorage.getItem('sesion')) {
-      return of(JSON.parse(sessionStorage.getItem('sesion')));
-    } else {
-      throw Error('Estas deslogeado de la app');
-    }
+    return new Observable((subscriber) => {
+      if (sessionStorage.getItem('sesion')) {
+        subscriber.next(JSON.parse(sessionStorage.getItem('sesion')));
+      } else {
+        subscriber.error(new UnAuthentificatedError('Estas deslogeado de la app'));
+      }
+    });
   }
 
 }

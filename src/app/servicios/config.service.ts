@@ -25,4 +25,11 @@ export class ConfigService {
     }
     return this.appConfig.baseURL;
   }
+
+  get pedirTelefono() {
+    if (!this.appConfig) {
+      throw Error('No hay config');
+    }
+    return this.appConfig.pedirTelefono !== undefined ? this.appConfig.pedirTelefono : false;
+  }
 }

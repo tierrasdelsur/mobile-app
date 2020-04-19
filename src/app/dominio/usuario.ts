@@ -3,4 +3,5 @@ export class Usuario {
   usuario: string;
   password: string;
   bloqueado: boolean;
+  telefono: string;
 }

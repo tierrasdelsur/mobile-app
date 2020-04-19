@@ -1,6 +1,6 @@
-import { ErrorServidor } from './../../dominio/error';
-import { SesionRepository } from './../../repositorios/sesion.repository';
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { ErrorServidor } from '../../../../dominio/error';
+import { SesionRepository } from '../../../../repositorios/sesion.repository';
+import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Usuario } from 'src/app/dominio/usuario';
 import { Subscription } from 'rxjs';
@@ -13,7 +13,7 @@ import { Router, ActivatedRoute } from '@angular/router';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
 
   public verPass = false;
   public formGroup: FormGroup;
@@ -30,6 +30,11 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute
   ) { }
+  ngOnDestroy(): void {
+    if (this.sesionSubscription) {
+      this.sesionSubscription.unsubscribe();
+    }
+  }
 
   ngOnInit(): void {
     this.buildForm();

@@ -10,20 +10,27 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginGuard } from './guards/login-guard.service';
 import { ConfigService } from './servicios/config.service';
 import { HttpClientModule } from '@angular/common/http';
+import { ObtenerTelefonoComponent } from './componentes/obtener-telefono/obtener-telefono.component';
+import { TelefonoGuard } from './guards/telefono-guard.service';
+import {MatButtonModule} from '@angular/material/button';
+
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ObtenerTelefonoComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatButtonModule,
   ],
   providers: [
     LoginGuard,
+    TelefonoGuard,
     ConfigService,
     {
       provide: APP_INITIALIZER,
