@@ -6,6 +6,9 @@ import { MenuPrincipalRoutingModule } from './menu-principal-routing.module';
 import { MenuPrincipalComponent } from './componentes/menu-principal.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatButtonModule } from '@angular/material/button';
 
 
 @NgModule({
@@ -14,7 +17,11 @@ import { MatIconModule } from '@angular/material/icon';
     CommonModule,
     MenuPrincipalRoutingModule,
     MatSnackBarModule,
-    MatIconModule
+    MatIconModule,
+    MatInputModule,
+    MatIconModule,
+    MatFormFieldModule,
+    MatButtonModule,
   ],
   providers: [
     SesionRepository

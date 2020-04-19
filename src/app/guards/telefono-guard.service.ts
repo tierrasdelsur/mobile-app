@@ -1,3 +1,4 @@
+import { TelefonoService } from './../servicios/telefono.service';
 import { ConfigService } from './../servicios/config.service';
 import { LoginComponent } from './../modulos/login/componentes/login/login.component';
 import { Sesion } from './../dominio/sesion';
@@ -20,7 +21,8 @@ export class TelefonoGuard implements CanActivate {
     private router: Router,
     private sesionRepository: SesionRepository,
     private configService: ConfigService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private telefonoService: TelefonoService
   ) {}
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
     return of(this.configService.pedirTelefono).pipe(
@@ -28,7 +30,7 @@ export class TelefonoGuard implements CanActivate {
         if (isPedirTelefono) {
           return this.sesionRepository.getSesion().pipe(
             map((sesion: Sesion) => {
-              if (sesion.usuario.telefono) {
+              if (sesion.usuario.telefono || this.telefonoService.isOmitido()) {
                 return true;
               } else {
                 this.router.navigate(['telefono'], { relativeTo: this.route });

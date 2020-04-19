@@ -29,8 +29,11 @@ export class LoginComponent implements OnInit, OnDestroy {
     private snackBar: MatSnackBar,
     private router: Router,
     private route: ActivatedRoute
-  ) { }
+  ) {
+    document.body.classList.add('piedras-fondo');
+  }
   ngOnDestroy(): void {
+    document.body.classList.remove('piedras-fondo');
     if (this.sesionSubscription) {
       this.sesionSubscription.unsubscribe();
     }

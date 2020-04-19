@@ -1,0 +1,41 @@
+
+
+<div *ngIf="!mostrarCodigo" >
+
+  <h1>Ingresa tu numero telefonico</h1>
+
+  <mat-form-field class="input" appearance="outline">
+    <mat-label>Numero </mat-label>
+    <input id="number" name="number" #number="ngModel"  matInput [(ngModel)]="telefono" [validation]="true" mask="(000) 0000 0000" [ngModelOptions]="{standalone: true}"  pattern="[0-9]*"  type="text" inputmode="numeric" placeholder="Ej: (011) 1111 1111" >
+    <mat-icon style="color: aliceblue;" matSuffix>
+      local_phone </mat-icon>
+  </mat-form-field>
+
+  <button type="button" (click)="validar()" mat-flat-button [disabled]='telefono.length <= 9'  color="primary" >Validar</button>
+  <button mat-stroked-button color="primary" type="button" (click)="omitir()" >Omitir</button>
+</div>
+
+<div *ngIf="mostrarCodigo" >
+
+  <h1>Ingresa el codigo que resibiste por SMS</h1>
+
+  <mat-form-field class="input" appearance="outline">
+    <mat-label>Codigo </mat-label>
+    <input id="code" name="code" #code="ngModel"  matInput [(ngModel)]="codigo" [validation]="true" mask="00000" [ngModelOptions]="{standalone: true}"  pattern="[0-9]*"  type="text" inputmode="numeric" placeholder="Ej: 12345" >
+    <mat-icon style="color: aliceblue;" matSuffix>
+      vpn_key </mat-icon>
+  </mat-form-field>
+
+  <button type="button" (click)="validar()" mat-flat-button [disabled]='codigo.length <= 4'  color="primary" >Validar</button>
+  <button mat-stroked-button color="primary" type="button" (click)="omitir()" >Omitir</button>
+</div>
+
+<style>
+  .input {
+    width: 100%;
+  }
+  button {
+    margin-top: 10px;
+    width: 100%;
+  }
+</style>

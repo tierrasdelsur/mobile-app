@@ -10,15 +10,15 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginGuard } from './guards/login-guard.service';
 import { ConfigService } from './servicios/config.service';
 import { HttpClientModule } from '@angular/common/http';
-import { ObtenerTelefonoComponent } from './componentes/obtener-telefono/obtener-telefono.component';
 import { TelefonoGuard } from './guards/telefono-guard.service';
-import {MatButtonModule} from '@angular/material/button';
+import { ObtenerTelefonoModule } from './modulos/obtener-telefono/obtener-telefono.module';
+import { PreferenciasRepository } from './repositorios/preferencias.repository';
+import { TelefonoService } from './servicios/telefono.service';
 
 
 @NgModule({
   declarations: [
-    AppComponent,
-    ObtenerTelefonoComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
@@ -26,12 +26,13 @@ import {MatButtonModule} from '@angular/material/button';
     HttpClientModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     BrowserAnimationsModule,
-    MatButtonModule,
+    ObtenerTelefonoModule
   ],
   providers: [
     LoginGuard,
     TelefonoGuard,
     ConfigService,
+    TelefonoService,
     {
       provide: APP_INITIALIZER,
       multi: true,
@@ -39,6 +40,17 @@ import {MatButtonModule} from '@angular/material/button';
       useFactory: (appConfigService: ConfigService) => {
         return () => {
           return appConfigService.loadConfig();
+        };
+      }
+    },
+    PreferenciasRepository,
+    {
+      provide: APP_INITIALIZER,
+      multi: true,
+      deps: [PreferenciasRepository],
+      useFactory: (appConfigService: PreferenciasRepository) => {
+        return () => {
+          return appConfigService.loadAppPreferences();
         };
       }
     }

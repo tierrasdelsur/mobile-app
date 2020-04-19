@@ -1,7 +1,6 @@
 import { LoginGuard } from './guards/login-guard.service';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { ObtenerTelefonoComponent } from './componentes/obtener-telefono/obtener-telefono.component';
 import { TelefonoGuard } from './guards/telefono-guard.service';
 
 
@@ -16,7 +15,7 @@ const routes: Routes = [
   },
   {
     path: 'telefono',
-    component: ObtenerTelefonoComponent
+    loadChildren: () => import('./modulos/obtener-telefono/obtener-telefono.module').then(m => m.ObtenerTelefonoModule)
   }
 ];
 
