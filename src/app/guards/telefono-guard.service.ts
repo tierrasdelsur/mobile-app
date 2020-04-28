@@ -1,3 +1,4 @@
+import { Usuario } from './../dominio/usuario';
 import { TelefonoService } from './../servicios/telefono.service';
 import { ConfigService } from './../servicios/config.service';
 import { LoginComponent } from './../modulos/login/componentes/login/login.component';
@@ -14,6 +15,7 @@ import {
   ActivatedRoute,
 } from '@angular/router';
 import { Observable, of } from 'rxjs';
+import { UsuarioService } from '../servicios/usuario.service';
 
 @Injectable()
 export class TelefonoGuard implements CanActivate {
@@ -22,15 +24,16 @@ export class TelefonoGuard implements CanActivate {
     private sesionRepository: SesionRepository,
     private configService: ConfigService,
     private route: ActivatedRoute,
-    private telefonoService: TelefonoService
+    private telefonoService: TelefonoService,
+    private usuarioService: UsuarioService
   ) {}
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
     return of(this.configService.pedirTelefono).pipe(
       flatMap((isPedirTelefono) => {
         if (isPedirTelefono) {
-          return this.sesionRepository.getSesion().pipe(
-            map((sesion: Sesion) => {
-              if (sesion.usuario.telefono || this.telefonoService.isOmitido()) {
+          return this.usuarioService.get().pipe(
+            map((usuario: Usuario) => {
+              if (usuario.telefono || this.telefonoService.isOmitido()) {
                 return true;
               } else {
                 this.router.navigate(['telefono'], { relativeTo: this.route });

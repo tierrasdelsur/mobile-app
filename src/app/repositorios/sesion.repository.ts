@@ -36,6 +36,9 @@ export class SesionRepository {
     sessionStorage.setItem('sesion', JSON.stringify(sesion));
   }
 
+  public delete() {
+    sessionStorage.removeItem('sesion');
+  }
 
   public getSesion(): Observable<Sesion> {
     return new Observable((subscriber) => {

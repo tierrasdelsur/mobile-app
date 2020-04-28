@@ -1,9 +1,14 @@
+import { UnAuthentificatedError } from './../../../errores/unauthentificatederror';
+import { Codigo } from './../../../dominio/codigo';
 import { Sesion } from '../../../dominio/sesion';
 import { SesionRepository } from '../../../repositorios/sesion.repository';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Usuario } from 'src/app/dominio/usuario';
 import { Subscription } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { CodigoRepository } from 'src/app/repositorios/codigo.repository';
+import { ErrorhandlerService } from 'src/app/servicios/errorhandler.service';
+import { UsuarioService } from 'src/app/servicios/usuario.service';
 
 @Component({
   selector: 'app-menu-principal',
@@ -12,12 +17,16 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class MenuPrincipalComponent implements OnInit, OnDestroy {
   public usuario: Usuario;
+  public codigoUsuario: Codigo;
 
   public diccionarioSubs: { [key: string]: Subscription } = {};
 
   constructor(
     private snackBar: MatSnackBar,
-    private sesionRepository: SesionRepository
+    private sesionRepository: SesionRepository,
+    private usuarioService: UsuarioService,
+    private codigoRepository: CodigoRepository,
+    private errorhandlerService: ErrorhandlerService
     ) {}
 
   ngOnDestroy(): void {
@@ -31,23 +40,31 @@ export class MenuPrincipalComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.diccionarioSubs.getSesion = this.sesionRepository
-      .getSesion()
+    this.getUsuario();
+    this.getCodigo();
+  }
+
+  private getUsuario() {
+    this.diccionarioSubs.getUsuario = this.usuarioService
+      .get()
       .subscribe({
-        next: (sesion: Sesion) => {
-          this.usuario = sesion.usuario;
+        next: (usuario: Usuario) => {
+          this.usuario = usuario;
         },
         error: (error) => {
-          this.mostrarError('Ocurrio un error en la app');
+          this.errorhandlerService.handle(error);
         },
       });
   }
 
-  private mostrarError(mensaje: string, style = undefined) {
-    const settings = {
-      duration: 10000
-    };
-    if (style) { settings['panelClass'] = [style]; }
-    this.snackBar.open(mensaje, 'OK', settings);
+  private getCodigo() {
+    this.diccionarioSubs.getCodigo = this.codigoRepository.get().subscribe({
+     next: (codigo: Codigo) => {
+       this.codigoUsuario = codigo;
+     },
+     error: (error) => {
+      this.errorhandlerService.handle(error);
+     }
+    });
   }
 }

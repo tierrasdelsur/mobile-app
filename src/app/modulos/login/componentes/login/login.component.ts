@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, ActivatedRoute } from '@angular/router';
+import { ErrorhandlerService } from 'src/app/servicios/errorhandler.service';
 
 @Component({
   selector: 'app-login',
@@ -28,7 +29,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private snackBar: MatSnackBar,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private errorhandlerService: ErrorhandlerService
   ) {
     document.body.classList.add('piedras-fondo');
   }
@@ -72,12 +74,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       },
       error: (errorResponse: HttpErrorResponse) => {
         this.cargando = false;
-        console.error(errorResponse);
-        if (errorResponse.status === 401 && (errorResponse.error as ErrorServidor).mensaje) {
-          this.mostrarError((errorResponse.error as ErrorServidor).mensaje);
-        } else {
-          this.mostrarError('Ocurrio un error, por favor intente nuevamente en unos minutos', 'errorMensaje');
-        }
+        this.errorhandlerService.handle(errorResponse);
       }
     });
   }

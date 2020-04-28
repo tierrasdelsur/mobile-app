@@ -1,3 +1,4 @@
+import { ErrorhandlerService } from 'src/app/servicios/errorhandler.service';
 import { SesionRepository } from './../../repositorios/sesion.repository';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -28,7 +29,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatSnackBarModule
   ],
   providers: [
-    SesionRepository
+    SesionRepository,
+    ErrorhandlerService
   ]
 })
 export class LoginModule { }

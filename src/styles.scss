@@ -50,6 +50,16 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   }
 }
 
+.exitoMensaje {
+  background-color: #46B935;
+  color: honeydew;
+
+  .mat-button {
+    color: aliceblue;
+  }
+}
+
+
 .piedras-fondo {
   background-image: url('assets/bg_stone.gif');
 }

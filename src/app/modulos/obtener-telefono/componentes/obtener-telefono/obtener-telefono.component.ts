@@ -1,9 +1,11 @@
+import { AppError } from './../../../../errores/apperrror';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { TelefonoService } from 'src/app/servicios/telefono.service';
 import { FormControl, Validators } from '@angular/forms';
+import { ErrorhandlerService } from 'src/app/servicios/errorhandler.service';
 
 @Component({
   selector: 'app-obtener-telefono',
@@ -26,7 +28,8 @@ export class ObtenerTelefonoComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private telefonoService: TelefonoService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private errorhandlerService: ErrorhandlerService
   ) { }
 
   ngOnDestroy(): void {
@@ -57,16 +60,16 @@ export class ObtenerTelefonoComponent implements OnInit, OnDestroy {
   }
 
   private validarCodigo() {
-    this.diccionarioSubs.eeee = this.telefonoService.validarCodigo(this.codigo).subscribe({
+    this.diccionarioSubs.validarCodigo = this.telefonoService.validarCodigo(this.codigo).subscribe({
       next: (isValid) => {
         if (isValid) {
           this.omitir();
         } else {
-          this.mostrarError('El codigo es incorrecto');
+          this.errorhandlerService.handle(new AppError('El codigo es incorrecto'));
         }
       },
       error: (error) => {
-        this.mostrarError('Ocurrio un error al validar, intente nuevamente mas tarde', 'errorMensaje');
+        this.errorhandlerService.handle(error);
         console.error(error);
       }
     });
@@ -77,15 +80,8 @@ export class ObtenerTelefonoComponent implements OnInit, OnDestroy {
        console.log(this.telefono);
        this.mostrarCodigo = true;
     } else {
-      this.mostrarError('El numero no es valido');
+      this.errorhandlerService.handle(new AppError('El codigo es incorrecto'));
     }
   }
 
-  private mostrarError(mensaje: string, style = undefined) {
-    const settings = {
-      duration: 10000
-    };
-    if (style) { settings['panelClass'] = [style]; }
-    this.snackBar.open(mensaje, 'OK', settings);
-  }
 }
