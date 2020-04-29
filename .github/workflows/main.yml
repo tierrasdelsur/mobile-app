@@ -24,7 +24,12 @@ jobs:
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
-
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with: 
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-2
     # Runs a single command using the runners shell
     - name: Compilando
       uses: actions/setup-node@v1
@@ -32,3 +37,6 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: yarn install
     - run: yarn run build -c production
+    - name: Copy files to S3 with the AWS CLI
+      run: |
+        aws s3 sync dist s3://app.tierrasdelsur.cc
