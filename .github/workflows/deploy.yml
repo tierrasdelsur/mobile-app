@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: Deploy
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
@@ -42,4 +42,4 @@ jobs:
       run: yarn run build -c production
     - name: Copy files to S3 with the AWS CLI
       run: |
-        aws s3 sync dist/tds-mobile s3://app.tierrasdelsur.cc
+        aws s3 sync dist/tds-mobile s3://app.tierrasdelsur.cc --acl public-read --exclude cdn
