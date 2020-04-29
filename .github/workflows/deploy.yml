@@ -7,8 +7,9 @@ name: CI
 on:
   push:
     branches: [ master ]
-  pull_request:
-    branches: [ master ]
+  release:
+    types:
+      - created
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -31,12 +32,14 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-2
     # Runs a single command using the runners shell
-    - name: Compilando
+    - name: Compile
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: yarn install
-    - run: yarn run build -c production
+    - name: Install dependencies
+      run: yarn install
+    - name: Build
+      run: yarn run build -c production
     - name: Copy files to S3 with the AWS CLI
       run: |
-        aws s3 sync dist s3://app.tierrasdelsur.cc
+        aws s3 sync dist/tds-mobile s3://app.tierrasdelsur.cc
