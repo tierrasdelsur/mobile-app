@@ -43,3 +43,10 @@ jobs:
     - name: Copy files to S3 with the AWS CLI
       run: |
         aws s3 sync dist/tds-mobile s3://app.tierrasdelsur.cc --acl public-read --exclude cdn
+    - name: Purge CloudFlare cache
+      uses: jakejarvis/cloudflare-purge-action@master
+      env:
+       # Zone is required by both authentication methods
+       CLOUDFLARE_ZONE: ${{ secrets.CF_ZONE }}
+       CLOUDFLARE_TOKEN: ${{ secrets.CF_TOKEN }}
+       PURGE_URLS: '["https://app.tierrasdelsur.cc"]'
