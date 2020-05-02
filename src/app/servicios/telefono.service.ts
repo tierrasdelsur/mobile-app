@@ -1,3 +1,5 @@
+import { DetalleValidacion } from './../dominio/detalle-validacion';
+import { UsuarioService } from './usuario.service';
 import { SesionRepository } from './../repositorios/sesion.repository';
 import { PreferenciasRepository } from './../repositorios/preferencias.repository';
 import { Sesion } from './../dominio/sesion';
@@ -6,8 +8,10 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ConfigService } from './../servicios/config.service';
 import { Injectable } from '@angular/core';
 import { Usuario } from '../dominio/usuario';
-import { map } from 'rxjs/operators';
+import { map, flatMap } from 'rxjs/operators';
 import { UnAuthentificatedError } from '../errores/unauthentificatederror';
+import { AppError } from '../errores/apperrror';
+import { TelefonoRepository } from '../repositorios/telefono.repository';
 
 
 @Injectable({
@@ -17,12 +21,10 @@ export class TelefonoService {
 
   private static omitirTelefono = false;
 
-  private codigo = '81019';
-
   constructor(
-    private configService: ConfigService,
     private preferenciasRepository: PreferenciasRepository,
-    private sesionRepository: SesionRepository
+    private telefonoRepository: TelefonoRepository,
+    private usuarioService: UsuarioService
   ) { }
 
   public omitir() {
@@ -37,13 +39,17 @@ export class TelefonoService {
     return this.preferenciasRepository.get('telefono');
   }
 
-  public validarTelefono(telefono: string): Observable<string> {
-    this.preferenciasRepository.set('telefono', telefono);
-    return of(this.codigo);
+  public setTelefono(telefono: string): Observable<DetalleValidacion> {
+    return this.telefonoRepository.setTelefono(telefono);
   }
 
-  public validarCodigo(codigo: string): Observable<boolean> {
-    return of(codigo === this.codigo );
+  public validarTelefono(telefono: string, codigo: string): Observable<Usuario> {
+    return this.telefonoRepository.validarTelefono(telefono, codigo).pipe(
+      map((usuario: Usuario) => {
+        this.usuarioService.set(usuario);
+        return usuario;
+      })
+    );
   }
 
 

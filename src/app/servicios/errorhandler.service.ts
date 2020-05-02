@@ -30,7 +30,7 @@ export class ErrorhandlerService {
         panelClass: error.typeMessage,
       });
     } else if (error instanceof HttpErrorResponse) {
-      const errorMensaje = error.error['mensaje'];
+      const errorMensaje = error.error['message'];
       if (error.status >= 500) {
         this.showServerError();
       }
