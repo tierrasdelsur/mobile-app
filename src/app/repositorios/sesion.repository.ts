@@ -1,3 +1,4 @@
+import { HeadersService } from './../servicios/headers.service';
 import { Sesion } from './../dominio/sesion';
 import { Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -7,29 +8,30 @@ import { Usuario } from '../dominio/usuario';
 import { map } from 'rxjs/operators';
 import { UnAuthentificatedError } from '../errores/unauthentificatederror';
 
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SesionRepository {
-
   constructor(
     private configService: ConfigService,
     private httpClient: HttpClient
-  ) { }
+  ) {}
 
   private url = this.configService.baseURL + '/sesion';
 
-
   public login(usuario: Usuario): Observable<Sesion> {
-    const headers = new HttpHeaders({Authorization:  `Basic ${btoa(`${usuario.usuario}:${usuario.password}`)}`});
+    const headers = new HttpHeaders({
+      Authorization: `Basic ${btoa(`${usuario.usuario}:${usuario.password}`)}`,
+    });
 
-    return this.httpClient.get<Sesion>(this.url, { headers }).pipe(
-      map((sesion: Sesion) => {
-        this.saveSesion(sesion);
-        return sesion;
-      })
-    );
+    return this.httpClient
+      .get<Sesion>(this.url, { headers })
+      .pipe(
+        map((sesion: Sesion) => {
+          this.saveSesion(sesion);
+          return sesion;
+        })
+      );
   }
 
   private saveSesion(sesion: Sesion) {
@@ -45,9 +47,20 @@ export class SesionRepository {
       if (sessionStorage.getItem('sesion')) {
         subscriber.next(JSON.parse(sessionStorage.getItem('sesion')));
       } else {
-        subscriber.error(new UnAuthentificatedError('Estas deslogeado de la app'));
+        subscriber.error(
+          new UnAuthentificatedError('Estas deslogeado de la app')
+        );
       }
     });
   }
+
+  public setTotpCodigo(totp: string) {
+    localStorage.setItem('TOTP', totp);
+  }
+
+  public getTotpCodigo() {
+    return localStorage.getItem('TOTP') ? localStorage.getItem('TOTP') : undefined;
+  }
+
 
 }

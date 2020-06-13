@@ -1,3 +1,4 @@
+import { Router, ActivatedRoute } from '@angular/router';
 import { UnAuthentificatedError } from './../../../errores/unauthentificatederror';
 import { Codigo } from './../../../dominio/codigo';
 import { Sesion } from '../../../dominio/sesion';
@@ -18,7 +19,6 @@ import { UsuarioService } from 'src/app/servicios/usuario.service';
 export class MenuPrincipalComponent implements OnInit, OnDestroy {
   public usuario: Usuario;
   public codigoUsuario: Codigo;
-
   public diccionarioSubs: { [key: string]: Subscription } = {};
 
   constructor(
@@ -26,7 +26,9 @@ export class MenuPrincipalComponent implements OnInit, OnDestroy {
     private sesionRepository: SesionRepository,
     private usuarioService: UsuarioService,
     private codigoRepository: CodigoRepository,
-    private errorhandlerService: ErrorhandlerService
+    private errorhandlerService: ErrorhandlerService,
+    private router: Router,
+    private route: ActivatedRoute
     ) {}
 
   ngOnDestroy(): void {
@@ -55,6 +57,10 @@ export class MenuPrincipalComponent implements OnInit, OnDestroy {
           this.errorhandlerService.handle(error);
         },
       });
+  }
+
+  public goToToken() {
+    this.router.navigate(['factor'], { relativeTo: this.route });
   }
 
   private getCodigo() {

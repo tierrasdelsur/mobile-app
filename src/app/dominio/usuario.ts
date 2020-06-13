@@ -4,4 +4,5 @@ export class Usuario {
   password: string;
   bloqueado: boolean;
   telefono: string;
+  twoFactor: boolean;
 }

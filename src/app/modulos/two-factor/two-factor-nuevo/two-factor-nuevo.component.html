@@ -1,0 +1,23 @@
+<div>
+
+  <h1>Ingresa el codigo que esta en la aplicacion, para activar la aplicacion</h1>
+
+  <mat-form-field class="input" appearance="outline">
+    <mat-label>Codigo </mat-label>
+    <input id="code" name="code" matInput [(ngModel)]="codigo" [validation]="true" mask="000000" [ngModelOptions]="{standalone: true}"  pattern="[0-9]*"  type="text" inputmode="numeric" placeholder="Ej: 123456" >
+    <mat-icon style="color: aliceblue;" matSuffix>
+      vpn_key </mat-icon>
+  </mat-form-field>
+
+  <button type="button" (click)="validar()" mat-flat-button [disabled]='codigo.length <= 5'  color="primary" >Activar</button>
+</div>
+
+<style>
+  .input {
+    width: 100%;
+  }
+  button {
+    margin-top: 10px;
+    width: 100%;
+  }
+</style>

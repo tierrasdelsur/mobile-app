@@ -17,6 +17,11 @@ const routes: Routes = [
     path: 'telefono',
     loadChildren: () => import('./modulos/obtener-telefono/obtener-telefono.module').then(m => m.ObtenerTelefonoModule)
   }
+  // ,
+  // {
+  //   path: 'factor',
+  //   loadChildren: () => import('./modulos/two-factor/two-factor.module').then(m => m.TwoFactorModule)
+  // }
 ];
 
 @NgModule({
