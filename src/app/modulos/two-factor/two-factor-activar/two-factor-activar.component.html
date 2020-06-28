@@ -1,3 +1,13 @@
-<h1>¿Deseas activar la autenticación de segundo factor?</h1>
-<p>Con la segunda autenticación te aseguras que solo los dispositivos que vos autorizas puedan acceder a la aplicación</p>
-<button mat-raised-button (click)="irA2Fac()" color="primary">Activar</button>
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <mat-icon aria-hidden="false" (click)="back()" aria-label="Configurar cuenta">arrow_back</mat-icon>
+    <span class="example-spacer"></span>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<div style="margin: 4em;">
+  <h1>¿Deseas activar la autenticación de segundo factor?</h1>
+  <p>Con la segunda autenticación te aseguras que solo los dispositivos que vos autorizas puedan acceder a la aplicación
+  </p>
+  <button mat-raised-button (click)="irA2Fac()" style="width: 100%;" color="primary">Activar</button>
+</div>

@@ -1,9 +1,11 @@
+import { Router, ActivatedRoute } from '@angular/router';
 import { SesionRepository } from './../../../repositorios/sesion.repository';
 import { ErrorhandlerService } from 'src/app/servicios/errorhandler.service';
 import { TwoFactorService } from './../../../servicios/two-factor.service';
 import { TwoFactor } from './../../../dominio/two-factor';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-two-factor',
@@ -22,11 +24,25 @@ export class TwoFactorComponent implements OnInit, OnDestroy {
 
   public codigo = '';
 
+  public qrdata: string = null;
+  public elementType: 'img' | 'url' | 'canvas' | 'svg' = null;
+  public level: 'L' | 'M' | 'Q' | 'H';
+  public width: number;
+
   constructor(
     private twoFactorService: TwoFactorService,
     private errorHandlerService: ErrorhandlerService,
-    private sesionRepository: SesionRepository
-  ) { }
+    private sesionRepository: SesionRepository,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {
+
+    this.elementType = 'img';
+    this.level = 'M';
+    this.qrdata = 'Initial QR code data string';
+    this.scale = 1;
+    this.width = 256;
+   }
 
   ngOnDestroy(): void {
     for (const key in this.diccionarioSubs) {
@@ -38,12 +54,19 @@ export class TwoFactorComponent implements OnInit, OnDestroy {
     }
   }
 
+  back() {
+    this.router.navigate(['../'], {
+      relativeTo: this.route
+    });
+  }
+
   ngOnInit() {
     this.cargando = true;
     this.diccionarioSubs.get = this.twoFactorService.get().subscribe({
       next: (tf: TwoFactor) => {
         this.twoFactor = tf;
         this.cargando = false;
+        this.qrdata = `otpauth://totp/${this.twoFactor.app}:${this.twoFactor.cuenta}?secret=${this.twoFactor.codigo}&issuer=${this.twoFactor.app}`;
       },
       error: () => {
         this.cargando = false;
@@ -60,7 +83,12 @@ export class TwoFactorComponent implements OnInit, OnDestroy {
   }
 
   getCodigo() {
-    this.diccionarioSubs.getCodigo = this.twoFactorService.getCodigo().subscribe({
+    this.diccionarioSubs.getCodigo = this.twoFactorService.getCodigo()
+    .pipe(map((codigo) => {
+      const midLength = (codigo.length / 2);
+      return `${codigo.substring(0, midLength)} ${codigo.substring(midLength, codigo.length)}`;
+    }))
+    .subscribe({
       next: (codigo: string) => {
         this.codigo = codigo;
       },

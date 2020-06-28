@@ -1,28 +1,36 @@
-<form [formGroup]="formGroup">
-  <div class="title-container">
-    <img height="150px" width="150px" src="assets/t_aliceblue.png" />
-  </div>
-  <mat-form-field class="input" appearance="outline">
-    <mat-label>Usuario</mat-label>
-    <input formControlName="usuario" matInput>
-  </mat-form-field>
+<div class="outer">
+  <div class="middle">
+    <div class="inner">
+      <form [formGroup]="formGroup">
+        <div class="title-container">
+          <img height="150px" width="150px" src="assets/t_aliceblue.png" />
+        </div>
+        <mat-form-field class="input" appearance="outline">
+          <mat-label>Usuario</mat-label>
+          <input formControlName="usuario" matInput>
+        </mat-form-field>
 
-  <mat-form-field class="input" appearance="outline">
-    <mat-label>Contraseña</mat-label>
-    <input #pass matInput autocomplete="on" formControlName="password" type="password">
-    <mat-icon style="color: aliceblue;" (click)="verPassword(); $event.stopPropagation()" matSuffix>
-      {{ verPass ? 'visibility_off': 'visibility' }}</mat-icon>
-  </mat-form-field>
+        <mat-form-field class="input" appearance="outline">
+          <mat-label>Contraseña</mat-label>
+          <input #pass matInput autocomplete="on" formControlName="password" type="password">
+          <mat-icon style="color: aliceblue;" (click)="verPassword(); $event.stopPropagation()" matSuffix>
+            {{ verPass ? 'visibility_off': 'visibility' }}</mat-icon>
+        </mat-form-field>
 
-  <div class="input">
-    <button type="button" [disabled]="!formGroup.valid || cargando" (click)="login()" mat-flat-button
-      color="primary">{{cargando ? 'Ingresando...' : 'Ingresar'}}</button>
+        <div class="input">
+          <button type="button" [disabled]="!formGroup.valid || cargando" (click)="login()" mat-flat-button
+            color="primary">{{cargando ? 'Ingresando...' : 'Ingresar'}}</button>
+        </div>
+      </form>
+
+
+
+    </div>
   </div>
-</form>
+</div>
 
 
 <style>
-
   .title-container {
     max-width: 150px;
     margin: 0 auto;
@@ -56,4 +64,28 @@
     color: aliceblue;
 
   }
+
+  .inner {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 512px;
+    padding: 15px;
+  }
+
+  .outer {
+    display: table;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-repeat: repeat;
+  }
+
+  .middle {
+    display: table-cell;
+    vertical-align: middle;
+    transform: translateY(-10vh);
+  }
+
 </style>

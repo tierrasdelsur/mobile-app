@@ -25,4 +25,10 @@ export class TwoFactorActivarComponent implements OnInit {
     });
 
   }
+
+  back() {
+    this.router.navigate(['../../'], {
+      relativeTo: this.route
+    });
+  }
 }

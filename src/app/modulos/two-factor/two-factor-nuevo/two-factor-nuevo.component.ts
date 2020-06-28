@@ -37,6 +37,12 @@ export class TwoFactorNuevoComponent implements OnInit, OnDestroy  {
     }
   }
 
+  back() {
+    this.router.navigate(['../'], {
+      relativeTo: this.route
+    });
+  }
+
 
   validar() {
     this.diccionarioSubs.codigo = this.twoFactorService.getConCodigo(this.codigo).subscribe({

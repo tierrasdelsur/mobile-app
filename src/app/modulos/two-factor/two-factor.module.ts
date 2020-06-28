@@ -1,5 +1,4 @@
 import { TwoFactorGuard } from './guards/two-factor-guard.service';
-import { QRCodeModule } from 'angularx-qrcode';
 import { TwoFactorRoutingModule } from './two-factor-routing.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -15,6 +14,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { NgxMaskModule } from 'ngx-mask';
 import { options } from '../obtener-telefono/obtener-telefono.module';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import { QRCodeModule } from "angularx-qrcode";
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+
 
 
 
@@ -23,7 +26,8 @@ import { options } from '../obtener-telefono/obtener-telefono.module';
   declarations: [
     TwoFactorComponent,
     TwoFactorActivarComponent,
-    TwoFactorNuevoComponent
+    TwoFactorNuevoComponent,
+
   ],
   imports: [
     CommonModule,
@@ -38,6 +42,9 @@ import { options } from '../obtener-telefono/obtener-telefono.module';
     ReactiveFormsModule,
     MatSnackBarModule,
     NgxMaskModule.forRoot(options),
+    MatToolbarModule,
+    QRCodeModule,
+    MatProgressSpinnerModule
   ],
   providers: [
     TwoFactorRepository,

@@ -60,17 +60,17 @@ export class MenuPrincipalComponent implements OnInit, OnDestroy {
   }
 
   public goToToken() {
-    this.router.navigate(['factor'], { relativeTo: this.route });
+    this.router.navigate(['./factor']);
   }
 
   private getCodigo() {
-    this.diccionarioSubs.getCodigo = this.codigoRepository.get().subscribe({
-     next: (codigo: Codigo) => {
-       this.codigoUsuario = codigo;
-     },
-     error: (error) => {
-      this.errorhandlerService.handle(error);
-     }
-    });
+    // this.diccionarioSubs.getCodigo = this.codigoRepository.get().subscribe({
+    //  next: (codigo: Codigo) => {
+    //    this.codigoUsuario = codigo;
+    //  },
+    //  error: (error) => {
+    //   this.errorhandlerService.handle(error);
+    //  }
+    // });
   }
 }

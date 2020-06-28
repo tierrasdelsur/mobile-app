@@ -14,6 +14,9 @@ import { CodigoRepository } from 'src/app/repositorios/codigo.repository';
 import { UsuarioService } from 'src/app/servicios/usuario.service';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import { FactorGuard } from './guard/factor-guard.service';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatListModule} from '@angular/material/list';
+
 
 
 @NgModule({
@@ -27,7 +30,9 @@ import { FactorGuard } from './guard/factor-guard.service';
     MatIconModule,
     MatFormFieldModule,
     MatButtonModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatToolbarModule,
+    MatListModule
   ],
   providers: [
     SesionRepository,

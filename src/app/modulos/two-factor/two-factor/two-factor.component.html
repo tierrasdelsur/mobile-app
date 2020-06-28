@@ -1,9 +1,33 @@
 <!-- <qrccode [qrdata]="twoFactor?.codigo" [width]="256" [level]="'M'" [elementType]="elementType" [scale]="scale"></qrccode> -->
 <!-- <qrcode></qrcode> -->
-<h1>Tu codigo es:</h1>
-<h2>{{codigo}}</h2>
-<p>
-  Este codigo será solicitado en el caso de que quieras vinuclar un nuevo dispositivo a tu cuenta. Este tiene una valides de 30 segundos, luego se generara otro
-</p>
-<button mat-raised-button (click)="openAuth()" color="primary">Agregar a Google Authenticator</button>
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <mat-icon aria-hidden="false" (click)="back()"  aria-label="Configurar cuenta">arrow_back</mat-icon>
+    <span class="example-spacer"></span>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<div *ngIf="cargando" >
+  <mat-spinner style="margin: 5em auto;"></mat-spinner>
+</div>
+<div style="margin: 4em;" *ngIf="!cargando" >
+
+  <h1>Tu codigo es:</h1>
+  <h2 style="font-size: xx-large; text-align: center;">{{codigo}}</h2>
+  <p>
+    Este codigo será solicitado en el caso de que quieras vinuclar un nuevo dispositivo a tu cuenta. Este tiene una valides de 30 segundos, luego se generara otro
+  </p>
+  <div>
+    <qrcode
+          [elementType]="elementType"
+          [level]="level"
+          [qrdata]="qrdata"
+          [scale]="scale"
+          [width]="width"
+        ></qrcode>
+  </div>
+  <button mat-raised-button (click)="openAuth()" style="width: 100%;" color="primary">Agregar a Google Authenticator</button>
+
+</div>
+
 
