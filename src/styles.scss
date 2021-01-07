@@ -12,14 +12,84 @@
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$tds-mobile-primary: mat-palette($mat-yellow, 600);
-$tds-mobile-accent: mat-palette($mat-pink, A200, A100, A400);
+
+$md-primary: (
+    50 : #e0efed,
+    100 : #b3d6d2,
+    200 : #80bbb4,
+    300 : #4da096,
+    400 : #268b80,
+    500 : #007769,
+    600 : #006f61,
+    700 : #006456,
+    800 : #005a4c,
+    900 : #00473b,
+    A100 : #7bffe2,
+    A200 : #48ffd7,
+    A400 : #15ffcc,
+    A700 : #00fbc4,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #ffffff,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+$md-secondary: (
+    50 : #fffdef,
+    100 : #fffbd6,
+    200 : #fff8bb,
+    300 : #fff59f,
+    400 : #fff38b,
+    500 : #fff176,
+    600 : #ffef6e,
+    700 : #ffed63,
+    800 : #ffeb59,
+    900 : #ffe746,
+    A100 : #ffffff,
+    A200 : #ffffff,
+    A400 : #fffded,
+    A700 : #fff9d4,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #000000,
+        600 : #000000,
+        700 : #000000,
+        800 : #000000,
+        900 : #000000,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+
+
+
+$tds-mobile-primary: mat-palette($md-primary, 600);
+$tds-mobile-accent: mat-palette($md-secondary);
 
 // The warn palette is optional (defaults to red).
 $tds-mobile-warn: mat-palette($mat-red);
 
 // Create the theme object (a Sass map containing all of the palettes).
-$tds-mobile-theme: mat-dark-theme($tds-mobile-primary, $tds-mobile-accent, $tds-mobile-warn);
+$tds-mobile-theme: mat-light-theme($tds-mobile-primary, $tds-mobile-accent, $tds-mobile-warn);
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
@@ -62,4 +132,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .piedras-fondo {
   background-image: url('assets/bg_stone.gif');
+}
+
+mat-toolbar{
+  box-shadow: 0px 3px #ffe746;
 }

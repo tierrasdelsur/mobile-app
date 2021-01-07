@@ -34,7 +34,7 @@ export class SesionRepository {
       );
   }
 
-  private saveSesion(sesion: Sesion) {
+  saveSesion(sesion: Sesion) {
     sessionStorage.setItem('sesion', JSON.stringify(sesion));
   }
 
@@ -59,7 +59,8 @@ export class SesionRepository {
   }
 
   public getTotpCodigo() {
-    return localStorage.getItem('TOTP') ? localStorage.getItem('TOTP') : undefined;
+    const TOTP = localStorage.getItem('TOTP')
+    return  TOTP && TOTP != null && TOTP != undefined? localStorage.getItem('TOTP') : undefined;
   }
 
 

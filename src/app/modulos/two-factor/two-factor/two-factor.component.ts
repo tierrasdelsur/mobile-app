@@ -10,13 +10,15 @@ import { map } from 'rxjs/operators';
 @Component({
   selector: 'app-two-factor',
   templateUrl: './two-factor.component.html',
-  styleUrls: ['./two-factor.component.css']
+  styleUrls: ['./two-factor.component.scss']
 })
 export class TwoFactorComponent implements OnInit, OnDestroy {
 
   public diccionarioSubs: { [key: string]: Subscription } = {};
 
   public cargando = false;
+
+  public cargandoCodigo = false;
 
   public twoFactor: TwoFactor;
 
@@ -41,7 +43,7 @@ export class TwoFactorComponent implements OnInit, OnDestroy {
     this.level = 'M';
     this.qrdata = 'Initial QR code data string';
     this.scale = 1;
-    this.width = 256;
+    this.width = 128;
    }
 
   ngOnDestroy(): void {
@@ -64,8 +66,8 @@ export class TwoFactorComponent implements OnInit, OnDestroy {
     this.cargando = true;
     this.diccionarioSubs.get = this.twoFactorService.get().subscribe({
       next: (tf: TwoFactor) => {
-        this.twoFactor = tf;
         this.cargando = false;
+        this.twoFactor = tf;
         this.qrdata = `otpauth://totp/${this.twoFactor.app}:${this.twoFactor.cuenta}?secret=${this.twoFactor.codigo}&issuer=${this.twoFactor.app}`;
       },
       error: () => {
@@ -83,6 +85,7 @@ export class TwoFactorComponent implements OnInit, OnDestroy {
   }
 
   getCodigo() {
+    this.cargandoCodigo = true
     this.diccionarioSubs.getCodigo = this.twoFactorService.getCodigo()
     .pipe(map((codigo) => {
       const midLength = (codigo.length / 2);
@@ -90,9 +93,11 @@ export class TwoFactorComponent implements OnInit, OnDestroy {
     }))
     .subscribe({
       next: (codigo: string) => {
+        this.cargandoCodigo = false
         this.codigo = codigo;
       },
       error: (error) => {
+        this.cargandoCodigo = false
         this.errorHandlerService.handle(error);
       },
     });

@@ -12,6 +12,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxMaskModule, IConfig } from 'ngx-mask';
 import { UsuarioService } from 'src/app/servicios/usuario.service';
 import { ErrorhandlerService } from 'src/app/servicios/errorhandler.service';
+import {MatToolbarModule} from '@angular/material/toolbar';
+
 export const options: Partial<IConfig> | (() => Partial<IConfig>) = {};
 
 
@@ -26,6 +28,7 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) = {};
     FormsModule,
     ReactiveFormsModule,
     MatSnackBarModule,
+    MatToolbarModule,
     NgxMaskModule.forRoot(options),
   ],
   declarations: [ObtenerTelefonoComponent],

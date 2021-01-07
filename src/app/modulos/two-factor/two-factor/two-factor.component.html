@@ -1,33 +1,37 @@
-<!-- <qrccode [qrdata]="twoFactor?.codigo" [width]="256" [level]="'M'" [elementType]="elementType" [scale]="scale"></qrccode> -->
-<!-- <qrcode></qrcode> -->
 <mat-toolbar color="primary">
   <mat-toolbar-row>
-    <mat-icon aria-hidden="false" (click)="back()"  aria-label="Configurar cuenta">arrow_back</mat-icon>
+    <mat-icon aria-hidden="false" (click)="back()" aria-label="Configurar cuenta">arrow_back</mat-icon>
     <span class="example-spacer"></span>
+    <h1>2FA</h1>
   </mat-toolbar-row>
 </mat-toolbar>
+<div class="card">
 
-<div *ngIf="cargando" >
-  <mat-spinner style="margin: 5em auto;"></mat-spinner>
-</div>
-<div style="margin: 4em;" *ngIf="!cargando" >
+    <h2><b>La autentificación de segundo factor incrementa la seguridad de tu cuenta </b></h2>
 
-  <h1>Tu codigo es:</h1>
-  <h2 style="font-size: xx-large; text-align: center;">{{codigo}}</h2>
-  <p>
-    Este codigo será solicitado en el caso de que quieras vinuclar un nuevo dispositivo a tu cuenta. Este tiene una valides de 30 segundos, luego se generara otro
-  </p>
-  <div>
-    <qrcode
+    <mat-divider></mat-divider>
+
+      <div style="width: 128px; margin: auto;">
+        <qrcode
           [elementType]="elementType"
           [level]="level"
           [qrdata]="qrdata"
           [scale]="scale"
-          [width]="width"
-        ></qrcode>
-  </div>
-  <button mat-raised-button (click)="openAuth()" style="width: 100%;" color="primary">Agregar a Google Authenticator</button>
+          [width]="width">
+        </qrcode>
+      </div>
+        <div *ngIf="cargando">
+          <mat-spinner style="margin: 5em auto;"></mat-spinner>
+        </div>
 
+    <mat-divider></mat-divider>
+
+    <p style="text-align: justify;">Escanea este codigo con tu aplicación de verificación en dos pasos o utiliza este codigo cuando desees iniciar sesion en otro dispositivo que utilizes por pimera vez.</p>
+
+    <mat-card>
+      <mat-spinner *ngIf="cargandoCodigo" style="margin: auto;"[diameter]="35"></mat-spinner>
+      <h1 style="text-align: center;">{{codigo}}</h1>
+    </mat-card>
+
+    <button mat-raised-button (click)="openAuth()" style="width: 100%; margin: 1em 0;" color="primary">Agregar a Google Authenticator</button>
 </div>
-
-

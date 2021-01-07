@@ -1,6 +1,14 @@
 
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <mat-icon aria-hidden="false" (click)="omitir()" aria-label="Configurar cuenta">close</mat-icon>
+    <span class="example-spacer"></span>
+    <h1>Telefono</h1>
+  </mat-toolbar-row>
+</mat-toolbar>
 
-<div *ngIf="!mostrarCodigo" >
+
+<div *ngIf="!mostrarCodigo" class="card" >
 
   <h1>Ingresa tu numero telefonico</h1>
 

@@ -1,0 +1,19 @@
+
+<mat-list role="list">
+  <mat-list-item role="listitem">
+    <button mat-raised-button style="width: 100%;" (click)="goToToken()"  color="accent">{{usuario?.twoFactor ? 'Ver Codigo 2FA': 'Activar Codigo 2FA'}}</button>
+  </mat-list-item>
+
+</mat-list>
+
+<div class="bottom-div">
+  <mat-divider></mat-divider>
+  <mat-list style="max-height: 10%" role="list">
+    <mat-list-item role="listitem">
+      <button mat-raised-button style="width: 100%;" (click)="logout()"  color="primary">Cerrar Sesión</button>
+    </mat-list-item>
+    <mat-list-item role="listitem">
+      <p style="margin: auto;">V {{versionService.getVersion()}}</p>
+    </mat-list-item>
+  </mat-list>
+</div>

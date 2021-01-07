@@ -16,11 +16,13 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import { FactorGuard } from './guard/factor-guard.service';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatListModule} from '@angular/material/list';
+import { NavButtonsComponent } from './componentes/nav-buttons/nav-buttons.component';
+import { VersionService } from 'src/app/servicios/version.service';
 
 
 
 @NgModule({
-  declarations: [MenuPrincipalComponent],
+  declarations: [MenuPrincipalComponent, NavButtonsComponent],
   imports: [
     CommonModule,
     MenuPrincipalRoutingModule,
@@ -39,7 +41,8 @@ import {MatListModule} from '@angular/material/list';
     CodigoRepository,
     ErrorhandlerService,
     UsuarioService,
-    FactorGuard
+    FactorGuard,
+    VersionService
   ]
 })
 export class MenuPrincipalModule { }

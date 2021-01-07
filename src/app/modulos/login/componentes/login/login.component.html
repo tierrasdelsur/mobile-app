@@ -10,7 +10,7 @@
           <input formControlName="usuario" matInput>
         </mat-form-field>
 
-        <mat-form-field class="input" appearance="outline">
+        <mat-form-field class="input"  appearance="outline">
           <mat-label>Contraseña</mat-label>
           <input #pass matInput autocomplete="on" formControlName="password" type="password">
           <mat-icon style="color: aliceblue;" (click)="verPassword(); $event.stopPropagation()" matSuffix>
@@ -19,7 +19,7 @@
 
         <div class="input">
           <button type="button" [disabled]="!formGroup.valid || cargando" (click)="login()" mat-flat-button
-            color="primary">{{cargando ? 'Ingresando...' : 'Ingresar'}}</button>
+            color="accent">{{cargando ? 'Ingresando...' : 'Ingresar'}}</button>
         </div>
       </form>
 
@@ -28,64 +28,3 @@
     </div>
   </div>
 </div>
-
-
-<style>
-  .title-container {
-    max-width: 150px;
-    margin: 0 auto;
-    display: flex
-  }
-
-  .h1 {
-    color: aliceblue;
-    font-weight: lighter;
-    margin: auto 0;
-  }
-
-
-  button {
-    width: 100%;
-  }
-
-  .input {
-    display: block;
-  }
-
-  .input mat-label {
-    color: aliceblue;
-  }
-
-  .input .mat-input-element {
-    color: aliceblue;
-  }
-
-  .input .mat-input-element::placeholder {
-    color: aliceblue;
-
-  }
-
-  .inner {
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 512px;
-    padding: 15px;
-  }
-
-  .outer {
-    display: table;
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    background-repeat: repeat;
-  }
-
-  .middle {
-    display: table-cell;
-    vertical-align: middle;
-    transform: translateY(-10vh);
-  }
-
-</style>

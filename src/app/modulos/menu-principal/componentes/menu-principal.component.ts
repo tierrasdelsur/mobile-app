@@ -59,9 +59,6 @@ export class MenuPrincipalComponent implements OnInit, OnDestroy {
       });
   }
 
-  public goToToken() {
-    this.router.navigate(['./factor']);
-  }
 
   private getCodigo() {
     // this.diccionarioSubs.getCodigo = this.codigoRepository.get().subscribe({

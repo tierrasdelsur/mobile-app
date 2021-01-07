@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-two-factor-activar',
   templateUrl: './two-factor-activar.component.html',
-  styleUrls: ['./two-factor-activar.component.css']
+  styleUrls: ['./two-factor-activar.component.scss']
 })
 export class TwoFactorActivarComponent implements OnInit {
 

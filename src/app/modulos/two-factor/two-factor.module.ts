@@ -17,10 +17,9 @@ import { options } from '../obtener-telefono/obtener-telefono.module';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { QRCodeModule } from "angularx-qrcode";
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-
-
-
-
+import {MatCardModule} from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
+import {MatListModule} from '@angular/material/list';
 
 @NgModule({
   declarations: [
@@ -32,6 +31,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
   imports: [
     CommonModule,
     FormsModule,
+    MatDividerModule,
     TwoFactorRoutingModule,
     QRCodeModule,
     MatButtonModule,
@@ -44,7 +44,9 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     NgxMaskModule.forRoot(options),
     MatToolbarModule,
     QRCodeModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatCardModule,
+    MatListModule
   ],
   providers: [
     TwoFactorRepository,

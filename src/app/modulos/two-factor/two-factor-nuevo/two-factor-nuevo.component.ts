@@ -38,7 +38,7 @@ export class TwoFactorNuevoComponent implements OnInit, OnDestroy  {
   }
 
   back() {
-    this.router.navigate(['../'], {
+    this.router.navigate(['../../login'], {
       relativeTo: this.route
     });
   }

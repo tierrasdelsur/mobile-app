@@ -6,6 +6,7 @@ import { Observable, of, interval } from 'rxjs';
 import { TwoFactor } from '../dominio/two-factor';
 import { map, flatMap } from 'rxjs/operators';
 import { authenticator } from 'otplib/otplib-browser';
+import { Sesion } from '../dominio/sesion';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +15,7 @@ export class TwoFactorService {
   constructor(
     private twoFactorRepository: TwoFactorRepository,
     private headersService: HeadersService,
-    private sesionRepository: SesionRepository
+    private sesionRepository: SesionRepository,
     ) {}
 
   private twoFactor: TwoFactor;
@@ -28,8 +29,14 @@ export class TwoFactorService {
           this.sesionRepository.setTotpCodigo(tf.codigo);
           this.twoFactor = tf;
           return tf;
+        }), flatMap((tf: TwoFactor) => {
+          return this.sesionRepository.getSesion().pipe(map((sesion: Sesion) => {
+            sesion.usuario.twoFactor = true
+            this.sesionRepository.saveSesion(sesion)
+            return tf;
+          }))
         })
-      );
+      )
     }
   }
 
