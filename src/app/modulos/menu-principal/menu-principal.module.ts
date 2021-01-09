@@ -11,7 +11,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { CodigoRepository } from 'src/app/repositorios/codigo.repository';
-import { UsuarioService } from 'src/app/servicios/usuario.service';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import { FactorGuard } from './guard/factor-guard.service';
 import {MatToolbarModule} from '@angular/material/toolbar';
@@ -40,7 +39,6 @@ import { VersionService } from 'src/app/servicios/version.service';
     SesionRepository,
     CodigoRepository,
     ErrorhandlerService,
-    UsuarioService,
     FactorGuard,
     VersionService
   ]

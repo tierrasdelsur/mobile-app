@@ -14,7 +14,7 @@
 
   <mat-form-field class="input" appearance="outline">
     <mat-label>Numero </mat-label>
-    <input id="number" name="number" #number="ngModel"  matInput [(ngModel)]="telefono" [validation]="true" mask="(000) 0000 0000" [ngModelOptions]="{standalone: true}"  pattern="[0-9]*"  type="text" inputmode="numeric" placeholder="Ej: (011) 1111 1111" >
+    <input id="number" name="number" #number="ngModel"  matInput [(ngModel)]="telefono" [validation]="true" prefix="+" mask="00 0 00 0000 0000" [ngModelOptions]="{standalone: true}"  pattern="[0-9]*"  type="text" inputmode="numeric" placeholder="Ej: 54 9 11 1111 1111" >
     <mat-icon style="color: aliceblue;" matSuffix>
       local_phone </mat-icon>
   </mat-form-field>
@@ -23,7 +23,7 @@
   <button mat-stroked-button color="primary" type="button" (click)="omitir()" >Omitir</button>
 </div>
 
-<div *ngIf="mostrarCodigo" >
+<div *ngIf="mostrarCodigo" class="card">
 
   <h1>Ingresa el codigo que resibiste por SMS</h1>
 

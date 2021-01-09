@@ -1,4 +1,4 @@
 {
-  "baseURL": "https://tdsapi.mennter.codes",
-  "pedirTelefono": false
+  "baseURL": "http://localhost:8080",
+  "pedirTelefono": true
 }

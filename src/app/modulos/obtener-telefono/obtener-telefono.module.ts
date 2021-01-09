@@ -10,7 +10,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxMaskModule, IConfig } from 'ngx-mask';
-import { UsuarioService } from 'src/app/servicios/usuario.service';
 import { ErrorhandlerService } from 'src/app/servicios/errorhandler.service';
 import {MatToolbarModule} from '@angular/material/toolbar';
 
@@ -34,7 +33,6 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) = {};
   declarations: [ObtenerTelefonoComponent],
   providers: [
     TelefonoService,
-    UsuarioService,
     ErrorhandlerService
   ]
 })

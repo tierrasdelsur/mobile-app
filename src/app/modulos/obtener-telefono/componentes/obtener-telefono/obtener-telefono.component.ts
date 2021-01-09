@@ -11,10 +11,9 @@ import { Usuario } from 'src/app/dominio/usuario';
 @Component({
   selector: 'app-obtener-telefono',
   templateUrl: './obtener-telefono.component.html',
-  styleUrls: ['./obtener-telefono.component.css']
+  styleUrls: ['./obtener-telefono.component.css'],
 })
 export class ObtenerTelefonoComponent implements OnInit, OnDestroy {
-
   private diccionarioSubs: { [key: string]: Subscription } = {};
 
   public telefono = '';
@@ -23,7 +22,15 @@ export class ObtenerTelefonoComponent implements OnInit, OnDestroy {
 
   public mostrarCodigo = false;
 
-  public customPatterns = { 0: { pattern: new RegExp('^(?:(?:00)?549?)?0?(?:11|[2368]\d)(?:(?=\d{0,2}15)\d{2})??\d{8}$')} };
+  public ac = new AbortController();
+
+  public customPatterns = {
+    0: {
+      pattern: new RegExp(
+        '^(?:(?:00)?549?)?0?(?:11|[2368]d)(?:(?=d{0,2}15)d{2})??d{8}$'
+      ),
+    },
+  };
 
   constructor(
     private router: Router,
@@ -31,7 +38,7 @@ export class ObtenerTelefonoComponent implements OnInit, OnDestroy {
     private telefonoService: TelefonoService,
     private snackBar: MatSnackBar,
     private errorhandlerService: ErrorhandlerService
-  ) { }
+  ) {}
 
   ngOnDestroy(): void {
     for (const key in this.diccionarioSubs) {
@@ -44,8 +51,8 @@ export class ObtenerTelefonoComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.escucharOTP()
   }
-
 
   public omitir() {
     this.telefonoService.omitir();
@@ -53,7 +60,9 @@ export class ObtenerTelefonoComponent implements OnInit, OnDestroy {
   }
 
   public validar() {
-    if (!this.mostrarCodigo){
+    this.ac.abort();
+
+    if (!this.mostrarCodigo) {
       this.setTelefono();
     } else {
       this.validarTelefono();
@@ -61,32 +70,56 @@ export class ObtenerTelefonoComponent implements OnInit, OnDestroy {
   }
 
   private validarTelefono() {
-    this.diccionarioSubs.validarTelefono = this.telefonoService.validarTelefono(this.telefono, this.codigo).subscribe({
-      next: (usuario: Usuario) => {
-        this.omitir();
-      },
-      error: (error) => {
-        this.errorhandlerService.handle(error);
-      }
-    });
-  }
-
-  private setTelefono() {
-    if (this.telefono.match(/^(?:(?:00)?549?)?0?(?:11|[2368]\d)(?:(?=\d{0,2}15)\d{2})??\d{8}$/) !== null) {
-      this.diccionarioSubs.setTelefono = this.telefonoService.setTelefono(this.telefono).subscribe({
-        next: () => {
-          this.mostrarCodigo = true;
+    this.diccionarioSubs.validarTelefono = this.telefonoService
+      .validarTelefono("+" + this.telefono, this.codigo)
+      .subscribe({
+        next: (usuario: Usuario) => {
+          this.omitir();
         },
         error: (error) => {
           this.errorhandlerService.handle(error);
-        }
+        },
       });
-    } else {
-      this.errorhandlerService.handle(new AppError('El telefono es incorrecto'));
+  }
+
+  private escucharOTP() {
+    const cro = {
+      otp: { transport: ['sms'] },
+      signal: this.ac.signal,
+    };
+
+    if ('OTPCredential' in window) {
+      navigator.credentials
+        .get(cro)
+        .then((otp) => {
+          this.codigo = otp['code'];
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   }
 
-
-
-
+  private setTelefono() {
+    if (
+      this.telefono.match(
+        /^(?:(?:00)?549?)?0?(?:11|[2368]\d)(?:(?=\d{0,2}15)\d{2})??\d{8}$/
+      ) !== null
+    ) {
+      this.diccionarioSubs.setTelefono = this.telefonoService
+        .setTelefono( "+" + this.telefono)
+        .subscribe({
+          next: () => {
+            this.mostrarCodigo = true;
+          },
+          error: (error) => {
+            this.errorhandlerService.handle(error);
+          },
+        });
+    } else {
+      this.errorhandlerService.handle(
+        new AppError('El telefono es incorrecto')
+      );
+    }
+  }
 }

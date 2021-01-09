@@ -10,13 +10,15 @@ import {
   RouterStateSnapshot,
 } from '@angular/router';
 import { Observable, of, onErrorResumeNext } from 'rxjs';
+import { ConfigService } from 'src/app/servicios/config.service';
 
 @Injectable()
 export class TwoFactorGuard implements CanActivate {
   constructor(
     private router: Router,
     private usuarioService: UsuarioService,
-    private sesionRepository: SesionRepository
+    private sesionRepository: SesionRepository,
+    private configService: ConfigService
   ) {}
   public canActivate(
     route: ActivatedRouteSnapshot,
@@ -26,6 +28,11 @@ export class TwoFactorGuard implements CanActivate {
       map((usuario: Usuario) => {
         if (route.queryParams.activar) {
           return true;
+        }
+
+        if (usuario.telefono == undefined && this.configService.pedirTelefono) {
+          this.router.navigate(['./telefono']);
+          return false;
         }
 
         if (usuario.twoFactor) {

@@ -30,7 +30,7 @@ export class UsuarioService {
           return sesion.usuario;
         }));
       } else {
-        throw of(usuario);
+        return of(usuario);
       }
     }));
   }

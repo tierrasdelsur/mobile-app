@@ -13,6 +13,7 @@ import { TelefonoGuard } from './guards/telefono-guard.service';
 import { ObtenerTelefonoModule } from './modulos/obtener-telefono/obtener-telefono.module';
 import { PreferenciasRepository } from './repositorios/preferencias.repository';
 import { TelefonoService } from './servicios/telefono.service';
+import { UsuarioService } from './servicios/usuario.service';
 
 
 @NgModule({
@@ -32,6 +33,7 @@ import { TelefonoService } from './servicios/telefono.service';
     TelefonoGuard,
     ConfigService,
     TelefonoService,
+    UsuarioService,
     {
       provide: APP_INITIALIZER,
       multi: true,
