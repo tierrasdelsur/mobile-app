@@ -20,6 +20,8 @@ export class TwoFactorService {
 
   private twoFactor: TwoFactor;
 
+  
+
   public get(): Observable<TwoFactor> {
     if (this.twoFactor) {
       return of(this.twoFactor);
@@ -50,16 +52,22 @@ export class TwoFactorService {
     );
   }
 
-  public getCodigo(): Observable<string> {
-    return interval (3 * 1000).pipe(
+  public getCodigo(): Observable<TokenInfo> {
+    return interval (1 * 1000).pipe(
       flatMap(() => {
         return this.get().pipe(
           map((tf: TwoFactor) => {
             const codigo = authenticator.generate(tf.codigo);
-            return codigo;
+            // codigo + " - " + authenticator.timeRemaining() + " - " +authenticator.timeUsed();
+            return {codigo: codigo, tiempoRestante: authenticator.timeRemaining()}
           })
         );
       })
     );
   }
+}
+
+export class TokenInfo {
+  tiempoRestante: number
+  codigo: string
 }

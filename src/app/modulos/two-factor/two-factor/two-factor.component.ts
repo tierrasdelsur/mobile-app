@@ -1,7 +1,7 @@
 import { Router, ActivatedRoute } from '@angular/router';
 import { SesionRepository } from './../../../repositorios/sesion.repository';
 import { ErrorhandlerService } from 'src/app/servicios/errorhandler.service';
-import { TwoFactorService } from './../../../servicios/two-factor.service';
+import { TokenInfo, TwoFactorService } from './../../../servicios/two-factor.service';
 import { TwoFactor } from './../../../dominio/two-factor';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
@@ -17,7 +17,7 @@ export class TwoFactorComponent implements OnInit, OnDestroy {
   public diccionarioSubs: { [key: string]: Subscription } = {};
 
   public cargando = false;
-
+  public isMostrarQr = false;
   public cargandoCodigo = false;
 
   public twoFactor: TwoFactor;
@@ -25,6 +25,7 @@ export class TwoFactorComponent implements OnInit, OnDestroy {
   public scale: number = 1;
 
   public codigo = '';
+  public tiempoRestante  = 0;
 
   public qrdata: string = null;
   public elementType: 'img' | 'url' | 'canvas' | 'svg' = null;
@@ -87,14 +88,16 @@ export class TwoFactorComponent implements OnInit, OnDestroy {
   getCodigo() {
     this.cargandoCodigo = true
     this.diccionarioSubs.getCodigo = this.twoFactorService.getCodigo()
-    .pipe(map((codigo) => {
-      const midLength = (codigo.length / 2);
-      return `${codigo.substring(0, midLength)} ${codigo.substring(midLength, codigo.length)}`;
+    .pipe(map((codigoDatos: TokenInfo) => {
+      const midLength = (codigoDatos.codigo.length / 2);
+      this.tiempoRestante = codigoDatos.tiempoRestante;
+      return `${codigoDatos.codigo.substring(0, midLength)} ${codigoDatos.codigo.substring(midLength, codigoDatos.codigo.length)}`;
     }))
     .subscribe({
       next: (codigo: string) => {
         this.cargandoCodigo = false
         this.codigo = codigo;
+
       },
       error: (error) => {
         this.cargandoCodigo = false

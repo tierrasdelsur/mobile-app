@@ -2,36 +2,54 @@
   <mat-toolbar-row>
     <mat-icon aria-hidden="false" (click)="back()" aria-label="Configurar cuenta">arrow_back</mat-icon>
     <span class="example-spacer"></span>
-    <h1>2FA</h1>
+    <h1>Token</h1>
   </mat-toolbar-row>
 </mat-toolbar>
 <div class="card">
 
-    <h2><b>La autentificación de segundo factor incrementa la seguridad de tu cuenta </b></h2>
+    <h2><b>El token de seguridad es personal para tu cuenta </b></h2>
+
+    <mat-divider></mat-divider>
+    <mat-card>
+      <mat-spinner *ngIf="cargandoCodigo" style="margin: auto;"[diameter]="100"></mat-spinner>
+      <h1 style="text-align: center;">{{codigo}}</h1>
+      <mat-progress-bar *ngIf="!cargandoCodigo"  mode="determinate" value="{{(tiempoRestante * 100) / 30}}"></mat-progress-bar>
+      <div *ngIf="!cargandoCodigo"  style="margin-top: 1em;">
+        <div class="social-icons">
+          <div><p class="seconds">{{tiempoRestante}}<span>s</span></p></div>
+          <div><mat-icon>schedule</mat-icon></div>
+        </div>
+      </div>
+
+    </mat-card>
 
     <mat-divider></mat-divider>
 
-      <div style="width: 128px; margin: auto;">
-        <qrcode
-          [elementType]="elementType"
-          [level]="level"
-          [qrdata]="qrdata"
-          [scale]="scale"
-          [width]="width">
-        </qrcode>
-      </div>
         <div *ngIf="cargando">
           <mat-spinner style="margin: 5em auto;"></mat-spinner>
         </div>
 
+    <p style="text-align: justify; margin-top: 1em;">Este codigo lo vas a necesitar para poner dentro de la web o dentro del juego. No compartas este codigo con otras personas.</p>
+
     <mat-divider></mat-divider>
+    <div style="margin-top: 1em;">
+      <button mat-stroked-button (click)="isMostrarQr = !isMostrarQr"> <mat-icon>help</mat-icon> Ayuda</button>
 
-    <p style="text-align: justify;">Escanea este codigo con tu aplicación de verificación en dos pasos o utiliza este codigo cuando desees iniciar sesion en otro dispositivo que utilizes por pimera vez.</p>
+      <mat-card *ngIf="isMostrarQr" style="margin-top: 1em;">
+        <p style="text-align: justify;">Una vez activado el token para entrar a la aplicación desde otro telefono, es necesario ingresar el codigo.</p>
 
-    <mat-card>
-      <mat-spinner *ngIf="cargandoCodigo" style="margin: auto;"[diameter]="35"></mat-spinner>
-      <h1 style="text-align: center;">{{codigo}}</h1>
-    </mat-card>
+        <div style="width: 128px; margin: auto;">
+          <qrcode
+            [elementType]="elementType"
+            [level]="level"
+            [qrdata]="qrdata"
+            [scale]="scale"
+            [width]="width">
+          </qrcode>
+        </div>
+        <button mat-raised-button (click)="openAuth()" style="width: 100%; margin: 1em 0;" color="primary">Agregar a Google Authenticator</button>
 
-    <button mat-raised-button (click)="openAuth()" style="width: 100%; margin: 1em 0;" color="primary">Agregar a Google Authenticator</button>
+      </mat-card>
+    </div>
+
 </div>

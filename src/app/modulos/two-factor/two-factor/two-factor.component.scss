@@ -8,3 +8,21 @@
 .example-spacer {
   flex: 1 1 auto;
 }
+
+.social-icons div {
+  vertical-align: top;
+  display: inline-block;
+  height: fit-content;
+  width: inherit;
+  margin: 3px;
+}
+
+.social-icons {
+  width: fit-content;
+  margin: auto;
+}
+
+.seconds {
+  font-weight: bold;
+  font-size: x-large;
+}
