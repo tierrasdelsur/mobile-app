@@ -10,6 +10,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { CodigoRepository } from 'src/app/repositorios/codigo.repository';
 import { ErrorhandlerService } from 'src/app/servicios/errorhandler.service';
 import { UsuarioService } from 'src/app/servicios/usuario.service';
+import { NotificacionesService } from 'src/app/servicios/notificaciones.service';
 
 @Component({
   selector: 'app-menu-principal',
@@ -28,7 +29,8 @@ export class MenuPrincipalComponent implements OnInit, OnDestroy {
     private codigoRepository: CodigoRepository,
     private errorhandlerService: ErrorhandlerService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private notificacionesService: NotificacionesService
     ) {}
 
   ngOnDestroy(): void {
@@ -44,6 +46,9 @@ export class MenuPrincipalComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.getUsuario();
     this.getCodigo();
+
+    this.notificacionesService.requestPermission()
+    this.notificacionesService.receiveMessage()
   }
 
   private getUsuario() {

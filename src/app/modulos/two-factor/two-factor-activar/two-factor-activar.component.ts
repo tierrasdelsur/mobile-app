@@ -1,5 +1,6 @@
 import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+import { AngularFireAnalytics } from '@angular/fire/analytics';
 
 @Component({
   selector: 'app-two-factor-activar',
@@ -10,7 +11,8 @@ export class TwoFactorActivarComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private angularFireAnalytics: AngularFireAnalytics
   ) { }
 
   ngOnInit() {
@@ -23,10 +25,12 @@ export class TwoFactorActivarComponent implements OnInit {
       queryParams: { activar : true },
       skipLocationChange: true
     });
+    this.angularFireAnalytics.logEvent('crear_token');
 
   }
 
   back() {
+    this.angularFireAnalytics.logEvent('volver_crear_token');
     this.router.navigate(['../../'], {
       relativeTo: this.route
     });

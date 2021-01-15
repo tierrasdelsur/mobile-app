@@ -6,6 +6,7 @@ import { TwoFactor } from './../../../dominio/two-factor';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { AngularFireAnalytics } from '@angular/fire/analytics';
 
 @Component({
   selector: 'app-two-factor',
@@ -37,8 +38,11 @@ export class TwoFactorComponent implements OnInit, OnDestroy {
     private errorHandlerService: ErrorhandlerService,
     private sesionRepository: SesionRepository,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private angularFireAnalytics: AngularFireAnalytics
   ) {
+
+    angularFireAnalytics.logEvent('ver_token');
 
     this.elementType = 'img';
     this.level = 'M';
@@ -61,6 +65,7 @@ export class TwoFactorComponent implements OnInit, OnDestroy {
     this.router.navigate(['../'], {
       relativeTo: this.route
     });
+    this.angularFireAnalytics.logEvent('volver_token');
   }
 
   ngOnInit() {
@@ -83,6 +88,14 @@ export class TwoFactorComponent implements OnInit, OnDestroy {
   openAuth() {
     // tslint:disable-next-line: max-line-length
     window.open(`otpauth://totp/${this.twoFactor.app}:${this.twoFactor.cuenta}?secret=${this.twoFactor.codigo}&issuer=${this.twoFactor.app}`, '_blank');
+  }
+
+  mostrarAyuda() {
+
+    this.isMostrarQr = !this.isMostrarQr
+    if (this.isMostrarQr) {
+      this.angularFireAnalytics.logEvent('volver_token');
+    }
   }
 
   getCodigo() {

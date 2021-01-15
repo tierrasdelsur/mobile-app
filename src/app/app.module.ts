@@ -14,6 +14,10 @@ import { ObtenerTelefonoModule } from './modulos/obtener-telefono/obtener-telefo
 import { PreferenciasRepository } from './repositorios/preferencias.repository';
 import { TelefonoService } from './servicios/telefono.service';
 import { UsuarioService } from './servicios/usuario.service';
+import { AngularFireMessagingModule } from '@angular/fire/messaging';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireAnalyticsModule } from '@angular/fire/analytics';
+
 
 
 @NgModule({
@@ -26,7 +30,10 @@ import { UsuarioService } from './servicios/usuario.service';
     HttpClientModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     BrowserAnimationsModule,
-    ObtenerTelefonoModule
+    ObtenerTelefonoModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireMessagingModule,
+    AngularFireAnalyticsModule
   ],
   providers: [
     LoginGuard,

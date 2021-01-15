@@ -2,11 +2,12 @@ import { AppError } from './../../../../errores/apperrror';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { from, Subscription } from 'rxjs';
 import { TelefonoService } from 'src/app/servicios/telefono.service';
 import { FormControl, Validators } from '@angular/forms';
 import { ErrorhandlerService } from 'src/app/servicios/errorhandler.service';
 import { Usuario } from 'src/app/dominio/usuario';
+import { AngularFireAnalytics } from '@angular/fire/analytics';
 
 @Component({
   selector: 'app-obtener-telefono',
@@ -37,8 +38,11 @@ export class ObtenerTelefonoComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private telefonoService: TelefonoService,
     private snackBar: MatSnackBar,
-    private errorhandlerService: ErrorhandlerService
-  ) {}
+    private errorhandlerService: ErrorhandlerService,
+    private angularFireAnalytics: AngularFireAnalytics
+  ) {
+    angularFireAnalytics.logEvent('entrar_ingreso_telefono');
+  }
 
   ngOnDestroy(): void {
     for (const key in this.diccionarioSubs) {
@@ -57,6 +61,7 @@ export class ObtenerTelefonoComponent implements OnInit, OnDestroy {
   public omitir() {
     this.telefonoService.omitir();
     this.router.navigate(['../'], { relativeTo: this.route, replaceUrl: true });
+    this.angularFireAnalytics.logEvent('omitir_telefono');
   }
 
   public validar() {
@@ -74,7 +79,9 @@ export class ObtenerTelefonoComponent implements OnInit, OnDestroy {
       .validarTelefono("+" + this.telefono, this.codigo)
       .subscribe({
         next: (usuario: Usuario) => {
-          this.omitir();
+          this.telefonoService.omitir();
+          this.router.navigate(['../'], { relativeTo: this.route, replaceUrl: true });
+          this.angularFireAnalytics.logEvent('omitir_telefono');
         },
         error: (error) => {
           this.errorhandlerService.handle(error);
@@ -89,14 +96,18 @@ export class ObtenerTelefonoComponent implements OnInit, OnDestroy {
     };
 
     if ('OTPCredential' in window) {
-      navigator.credentials
-        .get(cro)
-        .then((otp) => {
-          this.codigo = otp['code'];
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      const observable = from(navigator.credentials.get(cro));
+
+      this.diccionarioSubs.credentials = observable.subscribe(
+        {
+          next: (otp) => {
+            this.codigo = otp['code'];
+          },
+          error: (err) => {
+            console.log(err);
+          }
+        }
+      )
     }
   }
 

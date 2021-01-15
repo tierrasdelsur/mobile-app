@@ -4,6 +4,7 @@ import { TwoFactorRepository } from 'src/app/repositorios/two-factor.repositoy';
 import { Subscription } from 'rxjs';
 import { TwoFactorService } from 'src/app/servicios/two-factor.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { AngularFireAnalytics } from '@angular/fire/analytics';
 
 @Component({
   selector: 'app-two-factor-nuevo',

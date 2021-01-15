@@ -33,7 +33,7 @@
 
     <mat-divider></mat-divider>
     <div style="margin-top: 1em;">
-      <button mat-stroked-button (click)="isMostrarQr = !isMostrarQr"> <mat-icon>help</mat-icon> Ayuda</button>
+      <button mat-stroked-button (click)="mostrarAyuda()"> <mat-icon>help</mat-icon> Ayuda</button>
 
       <mat-card *ngIf="isMostrarQr" style="margin-top: 1em;">
         <p style="text-align: justify;">Una vez activado el token para entrar a la aplicación desde otro telefono, es necesario ingresar el codigo.</p>

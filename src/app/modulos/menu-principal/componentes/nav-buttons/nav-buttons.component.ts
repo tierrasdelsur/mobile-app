@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { Usuario } from 'src/app/dominio/usuario';
 import { SesionRepository } from 'src/app/repositorios/sesion.repository';
 import { ErrorhandlerService } from 'src/app/servicios/errorhandler.service';
+import { NotificacionesService } from 'src/app/servicios/notificaciones.service';
 import { UsuarioService } from 'src/app/servicios/usuario.service';
 import { VersionService } from 'src/app/servicios/version.service';
 
@@ -22,7 +23,8 @@ export class NavButtonsComponent implements OnInit {
     private router: Router,
     private usuarioService: UsuarioService,
     private errorhandlerService: ErrorhandlerService,
-    private sesionRepository: SesionRepository
+    private sesionRepository: SesionRepository,
+    private notificacionesService: NotificacionesService
   ) { }
 
   ngOnInit() {
@@ -45,6 +47,7 @@ export class NavButtonsComponent implements OnInit {
 
   public logout() {
     this.sesionRepository.delete();
+    this.notificacionesService.deleteToken();
     this.router.navigate(['./login'], { replaceUrl: true });
   }
 
